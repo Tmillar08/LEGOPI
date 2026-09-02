@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+/usr/bin/curl -fsS --max-time 45 http://127.0.0.1:11434/api/generate \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"qwen2.5:1.5b","prompt":"Return JSON only: {\"action\":\"UNKNOWN\"}","stream":false,"format":"json","keep_alive":"30m","options":{"temperature":0,"num_predict":2}}' >/dev/null

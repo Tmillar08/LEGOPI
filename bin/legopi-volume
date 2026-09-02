@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+LEVEL="${1:-}"
+case "$LEVEL" in
+  0|1|2|3|4|5|6|7|8|9|10) ;;
+  *) echo "Usage: legopi-volume 0-10" >&2; exit 2 ;;
+esac
+
+VALUE=$((LEVEL * 255 / 10))
+# PCM5102A/HifiBerry DAC exposes a software playback volume control through ALSA.
+# Try the common Digital/PCM names without failing the voice assistant if one is absent.
+if amixer -c 0 sset PCM "$VALUE" >/dev/null 2>&1; then
+  :
+elif amixer -c 0 sset Digital "$VALUE" >/dev/null 2>&1; then
+  :
+elif amixer -c 0 sset Master "$VALUE" >/dev/null 2>&1; then
+  :
+else
+  echo "No usable ALSA playback control found on card 0" >&2
+  exit 1
+fi
+
+echo "LEGO PI VOLUME: ${LEVEL}/10 (${VALUE}/255)"
+amixer -c 0 sget PCM 2>/dev/null | tail -8 || true

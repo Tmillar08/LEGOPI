@@ -1,0 +1,18 @@
+[Unit]
+Description=LEGO Pi Jarvis Voice Assistant
+After=network-online.target legopi-live.service ollama.service
+Wants=network-online.target
+Requires=legopi-live.service
+
+[Service]
+Type=simple
+User=ty
+WorkingDirectory=/home/ty
+EnvironmentFile=-/home/ty/.config/legopi/openai.env
+EnvironmentFile=-/home/ty/.config/legopi/elevenlabs.env
+ExecStart=/home/ty/legopi-venv/bin/python /home/ty/jarvis-full.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

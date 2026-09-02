@@ -1,0 +1,2 @@
+# Runtime tests only require Python standard library.
+# The deployed Pi already has the application dependencies.

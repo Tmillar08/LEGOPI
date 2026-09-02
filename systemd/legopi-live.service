@@ -1,0 +1,17 @@
+[Unit]
+Description=LEGO Pi Live Vision Server
+After=network-online.target ollama.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ty
+WorkingDirectory=/home/ty
+EnvironmentFile=-/home/ty/.config/legopi/openai.env
+EnvironmentFile=-/home/ty/.config/legopi/elevenlabs.env
+ExecStart=/home/ty/legopi-venv/bin/python /home/ty/legopi-live-server-final.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=LEGO Pi Physical Reboot Button
+After=multi-user.target
+
+[Service]
+Type=simple
+User=root
+Environment=GPIOZERO_PIN_FACTORY=lgpio
+ExecStart=/usr/bin/python3 /home/ty/reboot-button.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
